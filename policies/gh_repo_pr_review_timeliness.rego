@@ -7,12 +7,81 @@ two_weeks_ns := 14 * 24 * 60 * 60 * 1e9
 title := "Pull requests receive timely review attention"
 description := "PRs should either be reviewed within two weeks or have active discussion. Unreviewed PRs or unresolved discussion threads older than two weeks indicate process risk."
 
-violation[{"remarks": pr_stale_remark(pr)}] if {
+risk_templates := [
+  {
+    "name": "Pull request has no reviews after two weeks",
+    "title": "Unreviewed Pull Requests Indicate Breakdown of Code Review Process",
+    "statement": "A pull request that has received no review activity after two weeks signals a breakdown in the code review process. Unreviewed code carries a higher risk of introducing defects, security vulnerabilities, or non-compliant changes. Extended review delays also increase branch divergence and make eventual review harder and less effective.",
+    "likelihood_hint": "moderate",
+    "impact_hint": "high",
+    "violation_ids": ["pr_unreviewed_after_two_weeks"],
+    "threat_refs": [
+      {
+        "system": "https://cwe.mitre.org",
+        "external_id": "CWE-693",
+        "title": "Protection Mechanism Failure",
+        "url": "https://cwe.mitre.org/data/definitions/693.html"
+      },
+      {
+        "system": "https://cwe.mitre.org",
+        "external_id": "CWE-284",
+        "title": "Improper Access Control",
+        "url": "https://cwe.mitre.org/data/definitions/284.html"
+      }
+    ],
+    "remediation": {
+      "title": "Assign reviewers and establish a PR review SLA",
+      "description": "Ensure all pull requests are assigned reviewers at creation and that a team-agreed SLA (e.g., first review within 2 business days) is enforced through automation or management oversight.",
+      "tasks": [
+        { "title": "Assign a reviewer to the stale pull request immediately" },
+        { "title": "Define and communicate a team PR review SLA (e.g., first review within 2 business days)" },
+        { "title": "Configure CODEOWNERS to auto-assign reviewers on PR creation" },
+        { "title": "Enable stale PR notifications via GitHub Actions or a stale-bot integration" },
+        { "title": "Consider requiring a reviewer assignment before a PR can be merged" }
+      ]
+    }
+  },
+  {
+    "name": "Unresolved review discussion thread older than two weeks",
+    "title": "Unresolved Code Review Feedback Indicates Unaddressed Technical or Security Concerns",
+    "statement": "Review threads that remain unresolved for more than two weeks indicate that raised concerns — which may include security findings, logic errors, or compliance issues — have not been addressed. Merging or leaving open code with unresolved review comments increases the risk that known problems persist in the codebase.",
+    "likelihood_hint": "moderate",
+    "impact_hint": "moderate",
+    "violation_ids": ["stale_unresolved_review_thread"],
+    "threat_refs": [
+      {
+        "system": "https://cwe.mitre.org",
+        "external_id": "CWE-693",
+        "title": "Protection Mechanism Failure",
+        "url": "https://cwe.mitre.org/data/definitions/693.html"
+      },
+      {
+        "system": "https://cwe.mitre.org",
+        "external_id": "CWE-1059",
+        "title": "Incomplete Documentation",
+        "url": "https://cwe.mitre.org/data/definitions/1059.html"
+      }
+    ],
+    "remediation": {
+      "title": "Resolve or explicitly dismiss all stale review threads",
+      "description": "Address all unresolved review threads by fixing the raised issue, providing a documented reason for not addressing it, or explicitly resolving threads that are no longer applicable.",
+      "tasks": [
+        { "title": "Review all unresolved threads older than 14 days and action each one" },
+        { "title": "Fix raised issues where the reviewer's concern is valid" },
+        { "title": "Respond to threads where the concern does not apply, explaining why" },
+        { "title": "Resolve threads that have been superseded by subsequent changes" },
+        { "title": "Require all review threads to be resolved before a PR can be merged (via branch protection settings)" }
+      ]
+    }
+  }
+]
+
+violation[{"id": "pr_unreviewed_after_two_weeks", "remarks": pr_stale_remark(pr)}] if {
 	pr := input_pull_requests[_]
 	stale_pr_without_reviews(pr)
 }
 
-violation[{"remarks": thread_stale_remark(pr, thread)}] if {
+violation[{"id": "stale_unresolved_review_thread", "remarks": thread_stale_remark(pr, thread)}] if {
 	pr := input_pull_requests[_]
 	thread := stale_unresolved_threads(pr)[_]
 }

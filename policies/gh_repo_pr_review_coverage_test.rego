@@ -37,11 +37,6 @@ adequate_review_input := {
 								{"path": "file2.go"},
 							],
 						},
-						{
-							"comments": [
-								{"path": "file3.go"},
-							],
-						},
 					],
 				},
 			],
