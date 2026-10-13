@@ -4,3 +4,6 @@ Pass 1 (packs core, rego-policy): approve, no findings.
 - CORE-VERIFY-001: actionlint v1.7.12 clean; OPA 1.14.1 check clean, test 11/11, build ok.
 - CORE-XREPO-001: GitHub release no longer carries bundle.tar.gz. Only known consumer (local-dev ccf-agent-values.yaml) pulls the OCI tag, so not a break; flagged for a human decision in the PR body.
 - Files are byte-identical to the reviewed reference PR plugin-file-attestation-policies#4.
+
+lisa-design:
+Seed .release-please-manifest.json at 0.2.0: releases/latest is v0.2.0 (final), commit 748a02b is an ancestor of main, so no bootstrap-sha. No version.txt added by hand (release-please adds it).
