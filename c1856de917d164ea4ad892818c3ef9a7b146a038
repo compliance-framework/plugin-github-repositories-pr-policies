@@ -4,3 +4,7 @@ lisa-design:
 - Release-notes tests keep their assertions verbatim, including `count(violation) == 1` against the outer input; only the unused `violations :=` binding became `some v, _ in violation with input as inp` (violation is a partial object, so v binds the key).
 - No repo .regal/config.yaml: CI must use the shared config. No data.json in this repo, so no unresolved-reference ignores were needed.
 - Behaviour proof: opa eval data.compliance_framework (time.now_ns frozen) on 23 inputs, main vs branch, byte-identical JSON.
+
+lisa-selfreview:
+- pass 1/4: approve, no findings introduced by this diff (rules: core, rego-policy). opa fmt/check --strict/test/build, Regal (0 errors) and actionlint pass locally.
+- Pre-existing, out of scope: no # METADATA blocks (REGO-META-001); risk_templates lack violation_ids (REGO-RISK-001/002); package names differ from file stems (REGO-PKG-001); release-notes tests assert count(violation) == 1 against the outer input, not inp (CORE-TEST-002).
