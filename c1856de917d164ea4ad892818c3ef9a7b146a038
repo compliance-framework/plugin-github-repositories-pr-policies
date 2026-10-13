@@ -1,0 +1,6 @@
+lisa-design:
+- Errors only (user decision 2026-10-13): fixed opa fmt and opa check --strict errors; every Regal warning (24) is left as is.
+- thread_stale_remark(pr, thread) never used thread. A wildcard argument is a Regal argument-always-wildcard error, so it now takes only pr and the rule checks for a stale thread with `some _ in stale_unresolved_threads(pr)`. Same remark text, same set of violations (the remark never depended on the thread).
+- Release-notes tests keep their assertions verbatim, including `count(violation) == 1` against the outer input; only the unused `violations :=` binding became `some v, _ in violation with input as inp` (violation is a partial object, so v binds the key).
+- No repo .regal/config.yaml: CI must use the shared config. No data.json in this repo, so no unresolved-reference ignores were needed.
+- Behaviour proof: opa eval data.compliance_framework (time.now_ns frozen) on 23 inputs, main vs branch, byte-identical JSON.
