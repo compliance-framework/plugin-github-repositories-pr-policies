@@ -9,36 +9,36 @@ title := "Pull requests receive sufficient review coverage"
 description := "Large pull requests must have reviewers cover at least 67% of changed files. Smaller PRs (under 50 LOC touched) are exempt."
 
 risk_templates := [{
-  "name": "Insufficient review file coverage on large pull requests",
-  "title": "Code Changes Merged Without Adequate Reviewer Coverage",
-  "statement": "Large pull requests where reviewers have not commented on a sufficient proportion of changed files are likely to contain unreviewed code. Unreviewed sections of a large changeset may harbour security vulnerabilities, logic errors, or compliance violations that would normally be caught by peer review, increasing the risk of defects reaching production.",
-  "likelihood_hint": "moderate",
-  "impact_hint": "high",
-  "threat_refs": [
-    {
-      "system": "https://cwe.mitre.org",
-      "external_id": "CWE-693",
-      "title": "Protection Mechanism Failure",
-      "url": "https://cwe.mitre.org/data/definitions/693.html"
-    },
-    {
-      "system": "https://cwe.mitre.org",
-      "external_id": "CWE-284",
-      "title": "Improper Access Control",
-      "url": "https://cwe.mitre.org/data/definitions/284.html"
-    }
-  ],
-  "remediation": {
-    "title": "Ensure reviewers cover sufficient files in large pull requests",
-    "description": "Break large pull requests into smaller, focused changes that are easier to review thoroughly. Require that reviewers explicitly comment on or approve each changed file for significant changesets.",
-    "tasks": [
-      { "title": "Break up the pull request into smaller, logically independent changes if possible" },
-      { "title": "Request additional reviewers to cover the full set of changed files" },
-      { "title": "Ensure reviewers add inline comments or approvals covering at least 67% of changed files" },
-      { "title": "Define a maximum PR size policy (e.g., 400 LOC) and enforce it through team guidelines" },
-      { "title": "Consider tooling (e.g., danger.js, reviewdog) to automatically flag under-reviewed PRs" }
-    ]
-  }
+	"name": "Insufficient review file coverage on large pull requests",
+	"title": "Code Changes Merged Without Adequate Reviewer Coverage",
+	"statement": "Large pull requests where reviewers have not commented on a sufficient proportion of changed files are likely to contain unreviewed code. Unreviewed sections of a large changeset may harbour security vulnerabilities, logic errors, or compliance violations that would normally be caught by peer review, increasing the risk of defects reaching production.",
+	"likelihood_hint": "moderate",
+	"impact_hint": "high",
+	"threat_refs": [
+		{
+			"system": "https://cwe.mitre.org",
+			"external_id": "CWE-693",
+			"title": "Protection Mechanism Failure",
+			"url": "https://cwe.mitre.org/data/definitions/693.html",
+		},
+		{
+			"system": "https://cwe.mitre.org",
+			"external_id": "CWE-284",
+			"title": "Improper Access Control",
+			"url": "https://cwe.mitre.org/data/definitions/284.html",
+		},
+	],
+	"remediation": {
+		"title": "Ensure reviewers cover sufficient files in large pull requests",
+		"description": "Break large pull requests into smaller, focused changes that are easier to review thoroughly. Require that reviewers explicitly comment on or approve each changed file for significant changesets.",
+		"tasks": [
+			{"title": "Break up the pull request into smaller, logically independent changes if possible"},
+			{"title": "Request additional reviewers to cover the full set of changed files"},
+			{"title": "Ensure reviewers add inline comments or approvals covering at least 67% of changed files"},
+			{"title": "Define a maximum PR size policy (e.g., 400 LOC) and enforce it through team guidelines"},
+			{"title": "Consider tooling (e.g., danger.js, reviewdog) to automatically flag under-reviewed PRs"},
+		],
+	},
 }]
 
 violation[{"id": "insufficient_review_coverage", "remarks": pr_coverage_remark(pr)}] if {
