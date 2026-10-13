@@ -1,0 +1,6 @@
+lisa-selfreview:
+Pass 1 (packs core, rego-policy): approve, no findings.
+- CORE-CI-001: every shared workflow pinned at 6e7fc9c # v1.5.2; top-level permissions contents: read; packages: write only on release/preview jobs.
+- CORE-VERIFY-001: actionlint v1.7.12 clean; OPA 1.14.1 check clean, test 11/11, build ok.
+- CORE-XREPO-001: GitHub release no longer carries bundle.tar.gz. Only known consumer (local-dev ccf-agent-values.yaml) pulls the OCI tag, so not a break; flagged for a human decision in the PR body.
+- Files are byte-identical to the reviewed reference PR plugin-file-attestation-policies#4.
